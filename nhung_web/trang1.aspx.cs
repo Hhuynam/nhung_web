@@ -119,6 +119,8 @@ namespace nhung_web
 
         public void submitApplication(object sender, EventArgs e)
         {
+            string selectedCompanyText = ddlCompany.SelectedItem.Text;
+
             string name = txtName.Text;
             string candidateID = txtCandidateID.Text;
             string address = txtAddress.Text;
@@ -128,15 +130,16 @@ namespace nhung_web
             string jobTitle = txtJobTitle.Text;
             string position = txtPosition.Text;
             string desiredSalary = txtDesiredSalary.Text;
+            string company = ddlCompany.SelectedItem.Text;
 
             // Kết nối cơ sở dữ liệu
             string connectionString = "Provider=SQLOLEDB;Data Source=HANAM-PC\\SQLEXPRESS;Persist Security Info=True;Password=2003;User ID=Login;Initial Catalog=demo_timkiemviec";
 
             using (OleDbConnection conn = new OleDbConnection(connectionString))
             {
-                // Câu lệnh SQL để chèn dữ liệu vào bảng UngVien_SamSung
-                string query = @"INSERT INTO UngVien_SamSung (Name, CandidateID, Address, DateOfBirth, Email, Phone, JobTitle, Position, DesiredSalary) 
-                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                // Câu lệnh SQL để chèn dữ liệu vào bảng UngVien
+                string query = @"INSERT INTO UngVien (Name, CandidateID, Address, DateOfBirth, Email, Phone, JobTitle, Position, DesiredSalary, Company) 
+                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
                 OleDbCommand cmd = new OleDbCommand(query, conn);
                 {
@@ -150,6 +153,7 @@ namespace nhung_web
                     cmd.Parameters.AddWithValue("JobTitle", jobTitle);
                     cmd.Parameters.AddWithValue("Position", position);
                     cmd.Parameters.AddWithValue("DesiredSalary", desiredSalary);
+                    cmd.Parameters.AddWithValue("Company", company);
 
                     // Thực thi câu lệnh
                     try
